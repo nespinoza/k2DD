@@ -2,14 +2,19 @@
 from scipy.signal import medfilt
 from scipy.ndimage.filters import gaussian_filter
 import numpy as np
+import argparse
 import pyfits
 import urllib
 import os
 
-######### User input ##########
-EPICID = '210957318'
-campaign = '04'
-###############################
+# Read user input:
+parser = argparse.ArgumentParser()
+parser.add_argument('-epicid',default=None)
+parser.add_argument('-campaign',default=None)
+
+args = parser.parse_args()
+EPICID = args.epicid
+campaign = args.campaign
 
 def get_metadata(epicid):
     url = 'http://archive.stsci.edu/k2/epic/search.php?'
@@ -60,7 +65,7 @@ if not os.path.exists('outputs/'+fname):
                '/'+fname)
     os.system('mv '+fname+' outputs/'+fname)
 
-print '\t Done! Post-processing...'
+print '\t Done!\n'
 
 # Extract data:
 lc,h = pyfits.getdata('outputs/'+fname,header=True)
@@ -72,21 +77,19 @@ idx_not_nans = np.where(~np.isnan(flux))[0]
 t = t[idx_not_nans] + np.double(h['TUNIT1'].split()[-1])
 flux = flux[idx_not_nans]
 
-# Generate filtered lightcurve:
-mg_filter = gaussian_filter(medfilt(flux,39),5)
-filtered_flux = flux/mg_filter
-
 # Now get meta-data:
+print '\t Retrieving meta-data...'
+print '\t -----------------------'
 meta_data = get_metadata(EPICID)
 
 # Plot lightcurve, print important EPIC data:
 print '\t Success! Important meta-data for target:'
-print '\t  RA: ',meta_data['RA']
-print '\t Dec: ',meta_data['Dec']
-print '\t   V: ',meta_data['Vmag']
-print '\t   g: ',meta_data['gmag']
-print '\t   r: ',meta_data['rmag']
-print '\t   i: ',meta_data['imag']
+print '\t      RA: ',meta_data['RA']
+print '\t     Dec: ',meta_data['Dec']
+print '\t       V: ',meta_data['Vmag']
+print '\t       g: ',meta_data['gmag']
+print '\t       r: ',meta_data['rmag']
+print '\t       i: ',meta_data['imag']
 print ''
 
 # Save times and fluxes:
@@ -99,19 +102,6 @@ if not os.path.exists(EPICID+'.pkl'):
     FILE = open(EPICID+'.pkl','w')
     pickle.dump(meta_data, FILE)
     FILE.close()
-
-# Plot:
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
-plt.subplot('211')
-mflux = np.median(flux)
-plt.plot(t-2450000,flux/mflux,label = 'Raw EVEREST lightcurve')
-plt.plot(t-2450000,mg_filter/mflux,label = 'MG-filter')
-plt.legend()
-plt.ylabel('Relative flux')
-plt.subplot('212')
-plt.plot(t-2450000,filtered_flux,label = 'MG-filtered EVERST lightcurve')
-plt.legend()
-plt.xlabel('Time (BJD)')
-plt.ylabel('Relative flux')
-plt.show()
+    print '\t ----------------------------------'
+    print '\t Data saved to file '+EPICID+'.pkl'
+    print '\t ----------------------------------\n'
