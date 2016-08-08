@@ -22,7 +22,7 @@ The `data` dictionary will then have all the data of the target stored in it, wh
 
     data['times']                The times (in BJD TBD)
     
-    data['fluxes']                 The EVEREST corrected flux
+    data['fluxes']               The EVEREST corrected flux
 
 Along with meta-data in the MAST format (https://archive.stsci.edu/k2/epic/search.php). For example, 
 `data['Vmag']` stores the V magnitude of the star, `data['KepMag']` the Kepler Magnitude, etc.
