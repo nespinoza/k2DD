@@ -9,7 +9,7 @@ Author: Néstor Espinoza (nespino@astro.puc.cl)
 
 USAGE
 -----
-To use this code, run the `get_data.py` as follows:
+To use this code, run the `get_data.py` script as follows:
 
     python get_data.py -epicid EPICID -campaign nc
 
