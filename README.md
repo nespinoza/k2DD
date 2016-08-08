@@ -1,7 +1,7 @@
 k2DD
 ----
 
-This code downloads a K2 lightcurve ("detrended" using the EVEREST algorithm; see Luger et al., 2016) 
+This code downloads a K2 lightcurve ("detrended" using the EVEREST algorithm; see [Luger et al., 2016](http://arxiv.org/abs/1607.00524)) 
 along with the meta-data (i.e., V-magnitude, RA, DEC, etc.) for the star obtained from the EPIC catalog. 
 All this is saved on a easy-to-use dictionary. 
 
@@ -31,15 +31,16 @@ Along with meta-data in the MAST format (https://archive.stsci.edu/k2/epic/searc
 
 EXAMPLE
 -------
-Suppose we want to get all the data for the K2-34 hot-Jupiter, a.k.a. EPIC 212110888 (see, Brahm et al., 
-2016). This was a target from Campaign 5 so, in this case, we call the algorithm as:
+Suppose we want to get all the data for the K2-34 hot-Jupiter, a.k.a. EPIC 212110888 (see, [Brahm et al., 
+2016](https://arxiv.org/abs/1603.01721)). This was a target from Campaign 5 so, in this case, we call 
+the algorithm as:
 
     python get_data.py -epicid 212110888 -campaign 05
 
 This will download the data, and save everything in a file called `212110888.pkl`. Once this is done, 
 we can play with the data stored in this pickle file. For example, the following script uses this 
 data to generate the phased lightcurve, taking the period of P = 2.995629 and t0 = 2457144.34703 
-days found in Brahm et al., 2016, and plots the V-magnitude in the title of the plot:
+days found in [Brahm et al., 2016](https://arxiv.org/abs/1603.01721), and plots the V-magnitude in the title of the plot:
 
     import pickle
     import numpy as np
