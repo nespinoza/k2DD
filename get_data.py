@@ -58,9 +58,9 @@ if not os.path.exists('outputs'):
 # First, download lightcurve:
 print '\n\t Retrieving lightcurve for '+EPICID+'...'
 print '\t -----------------------------------------\n'
-fname = 'hlsp_everest_k2_llc_'+EPICID+'-c'+campaign+'_kepler_v1.0_lc.fits'
+fname = 'hlsp_everest_k2_llc_'+EPICID+'-c'+campaign+'_kepler_v2.0_lc.fits'
 if not os.path.exists('outputs/'+fname):
-    os.system('wget --no-check-certificate https://archive.stsci.edu/missions/hlsp/everest/c'\
+    os.system('wget --no-check-certificate https://archive.stsci.edu/missions/hlsp/everest/v2/c'\
                +campaign+'/'+EPICID[0:4]+'00000/'+EPICID[4:]+\
                '/'+fname)
     os.system('mv '+fname+' outputs/'+fname)
@@ -74,7 +74,7 @@ flux = lc['FLUX']
 
 # Take out the nans, add zeroth time to get BJD times:
 idx_not_nans = np.where(~np.isnan(flux))[0]
-t = t[idx_not_nans] + np.double(h['TUNIT1'].split()[-1])
+t = t[idx_not_nans] + np.double(h['BJDREFI'])
 flux = flux[idx_not_nans]
 
 # Now get meta-data:
