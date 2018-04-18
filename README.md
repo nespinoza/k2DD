@@ -52,7 +52,7 @@ days found in [Brahm et al., 2016](https://arxiv.org/abs/1603.01721), and plots 
     # Filter the flux:
     from scipy.signal import medfilt
     from scipy.ndimage.filters import gaussian_filter
-    filter = aussian_filter(medfilt(data['fluxes'],39),5)
+    mg_filter = gaussian_filter(medfilt(data['fluxes'],39),5)
     filtered_flux = data['fluxes']/mg_filter
     # Phase the lightcurve:
     P = 2.995629
